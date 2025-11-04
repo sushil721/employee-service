@@ -4,6 +4,7 @@ import com.curd.service.EmployeeReposetory;
 import com.curd.service.dto.EmployeeDTO;
 import com.curd.service.entity.Employee;
 import com.curd.service.exception.EmployeeNotFoundException;
+import com.curd.service.mapper.AutoEmployeeMapper;
 import com.curd.service.mapper.EmployeeMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -32,7 +33,9 @@ public class EmployeeServiceImpl implements EmployeeService{
         if(employeeDTO == null){
             return null;
         }
-        Employee employee = employeeMapper.dtoToEntity(employeeDTO);
+        // Employee employee = employeeMapper.dtoToEntity(employeeDTO);
+        // Mapstruct Auto Mapper
+        Employee employee = AutoEmployeeMapper.INSTANCE.dtoToEntity(employeeDTO);
         Employee savedEmployee = employeeReposetory.save(employee);//.orElseThrow(() -> new EmployeeNotFoundException("Failed to save employee"));
         return employeeMapper.entityToDto(savedEmployee);
     }
@@ -59,7 +62,7 @@ public class EmployeeServiceImpl implements EmployeeService{
                                 .orElseThrow(() -> new EmployeeNotFoundException("Employee not found with id: " + id));
         employee.setAddress(employeeDTO.address() != null ? employeeDTO.address() : employee.getAddress());
         employee.setName(employeeDTO.name() != null ? employeeDTO.name() : employee.getName());
-        employee.setEmail(employeeDTO.email() != null ? employeeDTO.email() : employee.getEmail());
+        employee.setEmail(employeeDTO.emailAddress() != null ? employeeDTO.emailAddress() : employee.getEmail());
         employee.setCompany(employeeDTO.company() != null ? employeeDTO.company() : employee.getCompany());
         employee.setDepartment(employeeDTO.department() != null ? employeeDTO.department() : employee.getDepartment());
         employee.setPhone(employeeDTO.phone() != null ? employeeDTO.phone() : employee.getPhone());

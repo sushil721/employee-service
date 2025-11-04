@@ -3,7 +3,7 @@ package com.curd.service.dto;
 public record EmployeeDTO(
         Long id,
         String name,
-        String email,
+        String emailAddress,
         String company,
         String department,
         String phone,

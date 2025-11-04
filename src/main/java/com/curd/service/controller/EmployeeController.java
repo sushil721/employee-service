@@ -12,7 +12,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/v1/api/employees")
-@Tag(name = "EmployeeController Class", description = "BEmployeeController for employee flow operations")
+@Tag(name = "EmployeeController Class", description = "EmployeeController for employee flow operations")
 public class EmployeeController {
 
     private final EmployeeService employeeService;
