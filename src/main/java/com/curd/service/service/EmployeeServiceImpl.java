@@ -35,9 +35,10 @@ public class EmployeeServiceImpl implements EmployeeService{
         }
         // Employee employee = employeeMapper.dtoToEntity(employeeDTO);
         // Mapstruct Auto Mapper
-        Employee employee = AutoEmployeeMapper.INSTANCE.dtoToEntity(employeeDTO);
+        Employee employee = AutoEmployeeMapper.MAPPER.dtoToEntity(employeeDTO);
         Employee savedEmployee = employeeReposetory.save(employee);//.orElseThrow(() -> new EmployeeNotFoundException("Failed to save employee"));
-        return employeeMapper.entityToDto(savedEmployee);
+        //return employeeMapper.entityToDto(savedEmployee);
+        return AutoEmployeeMapper.MAPPER.entityToDto(savedEmployee);
     }
 
     @Override
@@ -45,14 +46,14 @@ public class EmployeeServiceImpl implements EmployeeService{
         return employeeReposetory
                 .findAll()
                 .stream()
-                .map(employeeMapper::entityToDto)
+                .map( AutoEmployeeMapper.MAPPER::entityToDto)
                 .collect(toList());
     }
 
     @Override
     public EmployeeDTO getEmployeeById(Long id) {
         return employeeReposetory.findById(id)
-                .map(employeeMapper::entityToDto)
+                .map(AutoEmployeeMapper.MAPPER::entityToDto)
                 .orElseThrow(() -> new EmployeeNotFoundException("Employee not found with id: " + id));
     }
 
@@ -74,7 +75,7 @@ public class EmployeeServiceImpl implements EmployeeService{
         employee.setSalary(employeeDTO.salary() != 0.0 ? employeeDTO.salary() : employee.getSalary());
         employee.setDateOfJoining(employeeDTO.dateOfJoining() != null ? Date.valueOf(employeeDTO.dateOfJoining()) : employee.getDateOfJoining());
         Employee updatedEmployee = employeeReposetory.save(employee);
-        return employeeMapper.entityToDto(updatedEmployee);
+        return  AutoEmployeeMapper.MAPPER.entityToDto(updatedEmployee);
     }
 
     @Override

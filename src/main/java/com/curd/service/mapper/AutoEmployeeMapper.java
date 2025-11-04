@@ -12,7 +12,7 @@ import java.sql.Date;
 @Mapper
 public interface AutoEmployeeMapper {
 
-    AutoEmployeeMapper INSTANCE = Mappers.getMapper(AutoEmployeeMapper.class);
+    AutoEmployeeMapper MAPPER = Mappers.getMapper(AutoEmployeeMapper.class);
 
     @Mapping(source = "emailAddress", target = "email")
     @Mapping(source = "dateOfJoining", target = "dateOfJoining", qualifiedByName = "stringToSqlDate")
