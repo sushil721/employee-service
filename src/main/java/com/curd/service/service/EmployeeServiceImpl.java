@@ -1,9 +1,10 @@
 package com.curd.service.service;
 
-import com.curd.service.EmployeeReposetory;
+import com.curd.service.exception.EmailAlreadyExistException;
+import com.curd.service.repository.EmployeeReposetory;
 import com.curd.service.dto.EmployeeDTO;
 import com.curd.service.entity.Employee;
-import com.curd.service.exception.EmployeeNotFoundException;
+import com.curd.service.exception.ResourceNotFoundException;
 import com.curd.service.mapper.AutoEmployeeMapper;
 import com.curd.service.mapper.EmployeeMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.sql.Date;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Optional;
 
 import static java.util.stream.Collectors.toList;
 
@@ -32,6 +33,11 @@ public class EmployeeServiceImpl implements EmployeeService{
     public EmployeeDTO createEmployee(EmployeeDTO employeeDTO) {
         if(employeeDTO == null){
             return null;
+        }
+        //Check if employee with same email already exists
+        Optional<Employee> existingEmployee = employeeReposetory.findByEmail(employeeDTO.emailAddress());
+        if(existingEmployee.isPresent()){
+            throw new EmailAlreadyExistException("Employee with email " + employeeDTO.emailAddress() + " already exists");
         }
         // Employee employee = employeeMapper.dtoToEntity(employeeDTO);
         // Mapstruct Auto Mapper
@@ -54,13 +60,13 @@ public class EmployeeServiceImpl implements EmployeeService{
     public EmployeeDTO getEmployeeById(Long id) {
         return employeeReposetory.findById(id)
                 .map(AutoEmployeeMapper.MAPPER::entityToDto)
-                .orElseThrow(() -> new EmployeeNotFoundException("Employee not found with id: " + id));
+                .orElseThrow(() -> new ResourceNotFoundException("Employee", "id" , id));
     }
 
     @Override
     public EmployeeDTO updateEmployee(Long id, EmployeeDTO employeeDTO) {
         Employee employee = employeeReposetory.findById(id)
-                                .orElseThrow(() -> new EmployeeNotFoundException("Employee not found with id: " + id));
+                                .orElseThrow(() -> new ResourceNotFoundException("Employee", "id" , id));
         employee.setAddress(employeeDTO.address() != null ? employeeDTO.address() : employee.getAddress());
         employee.setName(employeeDTO.name() != null ? employeeDTO.name() : employee.getName());
         employee.setEmail(employeeDTO.emailAddress() != null ? employeeDTO.emailAddress() : employee.getEmail());
@@ -81,7 +87,7 @@ public class EmployeeServiceImpl implements EmployeeService{
     @Override
     public void deleteEmployee(Long id) {
         Employee employee = employeeReposetory.findById(id)
-                .orElseThrow(() -> new EmployeeNotFoundException("Employee not found with id: " + id));
+                .orElseThrow(() -> new ResourceNotFoundException("Employee", "id" , id));
         employeeReposetory.delete(employee);
     }
 }

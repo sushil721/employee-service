@@ -14,7 +14,7 @@ To create a new employee, send a POST request to the following endpoint:
 * Request Body:  
 {
   "name": "xyz mnl",
-  "email": "ss@gmail.com",
+  "emailAddress": "ss@gmail.com",
   "company": "xyz pvt ltd",
   "department": "Development",
   "phone": "9090909090",
