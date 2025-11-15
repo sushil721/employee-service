@@ -27,3 +27,6 @@ To create a new employee, send a POST request to the following endpoint:
   "salary": 140.50,
   "dateOfJoining": "2019-08-20"
 }
+
+### 2. Actuator URL
+http://localhost:8080/actuator
