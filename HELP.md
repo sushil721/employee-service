@@ -5,7 +5,7 @@ For further reference, please consider the following sections:
 
 Edit application.properties file to set the database name (xyz_db) and password (XXXX).
 
-Swagger API URL:- [http://localhost:8080/swagger-ui-employee.html](http://localhost:8080/swagger-ui-employee.html)
+Swagger API URL:- [http://localhost:8082/swagger-ui-employee.html](http://localhost:8080/swagger-ui-employee.html)
 
 ### 1. Create/ Add Employee API:
 To create a new employee, send a POST request to the following endpoint:
@@ -29,4 +29,4 @@ To create a new employee, send a POST request to the following endpoint:
 }
 
 ### 2. Actuator URL
-http://localhost:8080/actuator
+http://localhost:8082/actuator
